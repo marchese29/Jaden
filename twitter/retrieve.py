@@ -1,3 +1,4 @@
+import unicodedata
 import argparse
 from pprint import pprint
 import sys
@@ -43,7 +44,10 @@ def get_tweets_from_handle(handle, max_count=None):
             continue
         elif 'RT' in status.text:
             continue
-        yield status.text
+        yield normalize(status.text)
+
+def normalize(uni):
+    return unicodedata.normalize("NFKD", uni).encode("ascii", "ignore")
 
 def main():
     '''The main entry point for the program.'''
